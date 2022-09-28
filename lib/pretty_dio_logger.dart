@@ -55,7 +55,10 @@ class PrettyDioLogger extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    if(!uriFilter(options?.uri)) return options;
+    if(!uriFilter(options?.uri)) {
+      super.onRequest(options, handler);
+      return;
+    }
     if (request) {
       _printRequestHeader(options);
     }
@@ -91,7 +94,10 @@ class PrettyDioLogger extends Interceptor {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
     if (error) {
-      if(!uriFilter(err.response.request.uri)) return err;
+      if(!uriFilter(err.response.request.uri)) {
+        super.onError(err, handler);
+        return;
+      }
       if (err.type == DioErrorType.response) {
         final uri = err.response?.requestOptions.uri;
         _printBoxed(
@@ -113,7 +119,10 @@ class PrettyDioLogger extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    if(!uriFilter(response?.request?.uri)) return response;
+    if(!uriFilter(response?.request?.uri)) {
+      super.onResponse(response, handler);
+      return;
+    }
     _printResponseHeader(response);
     if (responseHeader) {
       final responseHeaders = <String, String>{};
