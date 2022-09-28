@@ -56,7 +56,7 @@ class PrettyDioLogger extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    if (!uriFilter(options?.uri)) {
+    if (!uriFilter(options.uri)) {
       super.onRequest(options, handler);
       return;
     }
@@ -95,7 +95,7 @@ class PrettyDioLogger extends Interceptor {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
     if (error) {
-      if (!uriFilter(err.response.request.uri)) {
+      if (!uriFilter(err.requestOptions.uri)) {
         super.onError(err, handler);
         return;
       }
