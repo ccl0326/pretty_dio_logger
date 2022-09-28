@@ -51,11 +51,12 @@ class PrettyDioLogger extends Interceptor {
       this.error = true,
       this.maxWidth = 90,
       this.compact = true,
-      this.logPrint = print, this.uriFilter = _defaultUriFilter});
+      this.logPrint = print,
+      this.uriFilter = _defaultUriFilter});
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    if(!uriFilter(options?.uri)) {
+    if (!uriFilter(options?.uri)) {
       super.onRequest(options, handler);
       return;
     }
@@ -94,7 +95,7 @@ class PrettyDioLogger extends Interceptor {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
     if (error) {
-      if(!uriFilter(err.response.request.uri)) {
+      if (!uriFilter(err.response.request.uri)) {
         super.onError(err, handler);
         return;
       }
@@ -119,7 +120,7 @@ class PrettyDioLogger extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    if(!uriFilter(response?.request?.uri)) {
+    if (!uriFilter(response.requestOptions.uri)) {
       super.onResponse(response, handler);
       return;
     }
